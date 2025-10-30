@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abrir Imagen con Python - Detalle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Sección de Código */
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(8, 145, 178, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #0891b2;
+            font-weight: 400;
+            border-bottom: 2px solid #e0f2fe;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border: 1px solid #0891b2;
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre;
+        }
+
+        /* Sintaxis highlighting manual */
+        .keyword { color: #38bdf8; }
+        .string { color: #7dd3fc; }
+        .comment { color: #64748b; }
+        .function { color: #22d3ee; }
+
+        /* Glosario */
+        .glossary {
+            margin-top: 1.5rem;
+        }
+
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0f2fe;
+        }
+
+        .glossary-item:last-child {
+            border-bottom: none;
+        }
+
+        .glossary-term {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #0891b2;
+            margin-bottom: 0.5rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+
+        .glossary-description {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .glossary-params {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .glossary-params li {
+            margin-bottom: 0.3rem;
+            color: #334155;
+            font-size: 0.9rem;
+        }
+
+        .param-name {
+            font-weight: 600;
+            color: #0e7490;
+            font-family: monospace;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-link">← Volver al portafolio</a>
+        <h1>Abrir Imagen con Python</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Proyecto</h2>
+            <div class="code-block">
+<code>
+    import cv2
+
+# Cargar una imagen
+img = cv2.imread('gato.jpg')
+
+# Mostrar la imagen en una ventana
+cv2.imshow('Mi Imagen', img)
+
+# Esperar hasta que el usuario presione una tecla
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+    
+</code>
+            </div>
+        </section>
+
+        <!-- Glosario de Funciones -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Funciones</h2>
+            
+            <div class="glossary">
+                <!-- Función 1 -->
+                <div class="glossary-item">
+                    <div class="glossary-term">abrir_imagen_pil(ruta_imagen)</div>
+                    <div class="glossary-description">
+                        Función que utiliza la biblioteca PIL (Pillow) para abrir y mostrar una imagen. 
+                        Es ideal para procesamiento básico de imágenes y soporta múltiples formatos.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">ruta_imagen:</span> String con la ruta del archivo de imagen a abrir</li>
+                        <li><span class="param-name">return:</span> Objeto Image de PIL con la imagen cargada</li>
+                    </ul>
+                </div>
+
+                <!-- Función 2 -->
+                <div class="glossary-item">
+                    <div class="glossary-term">abrir_imagen_cv2(ruta_imagen)</div>
+                    <div class="glossary-description">
+                        Función que emplea OpenCV (cv2) para cargar y visualizar imágenes. 
+                        OpenCV es más eficiente para operaciones de visión artificial y procesamiento en tiempo real.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">ruta_imagen:</span> String con la ruta del archivo de imagen</li>
+                        <li><span class="param-name">return:</span> Array de NumPy representando la imagen en formato BGR</li>
+                    </ul>
+                </div>
+
+                <!-- Función 3 -->
+                <div class="glossary-item">
+                    <div class="glossary-term">visualizar_imagen(ruta_imagen)</div>
+                    <div class="glossary-description">
+                        Función que usa Matplotlib para mostrar imágenes en un entorno más científico. 
+                        Permite crear visualizaciones más complejas y gráficos con las imágenes.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">ruta_imagen:</span> String con la ruta del archivo a visualizar</li>
+                        <li><span class="param-name">return:</span> None (muestra la imagen directamente)</li>
+                    </ul>
+                </div>
+
+                <!-- Métodos de PIL -->
+                <div class="glossary-item">
+                    <div class="glossary-term">Image.open()</div>
+                    <div class="glossary-description">
+                        Método de PIL que abre un archivo de imagen y crea un objeto Image. 
+                        Soporta formatos como JPG, PNG, BMP, GIF, entre otros.
+                    </div>
+                </div>
+
+                <!-- Métodos de OpenCV -->
+                <div class="glossary-item">
+                    <div class="glossary-term">cv2.imread()</div>
+                    <div class="glossary-description">
+                        Método de OpenCV que lee una imagen desde un archivo y la retorna como un array de NumPy. 
+                        Lee las imágenes en formato BGR por defecto.
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="glossary-term">cv2.imshow()</div>
+                    <div class="glossary-description">
+                        Muestra una imagen en una ventana de OpenCV. Requiere usar waitKey() para mantener la ventana abierta.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+

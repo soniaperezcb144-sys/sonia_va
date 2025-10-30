@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimientos de Imagen - Detalle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Sección de Código */
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(8, 145, 178, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #0891b2;
+            font-weight: 400;
+            border-bottom: 2px solid #e0f2fe;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border: 1px solid #0891b2;
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre;
+        }
+
+        /* Sintaxis highlighting manual */
+        .keyword { color: #38bdf8; }
+        .string { color: #7dd3fc; }
+        .comment { color: #64748b; }
+        .function { color: #22d3ee; }
+        .number { color: #a78bfa; }
+
+        /* Glosario */
+        .glossary {
+            margin-top: 1.5rem;
+        }
+
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            border-radius: 8px;
+            border-left: 4px solid #0891b2;
+            transition: transform 0.2s ease;
+        }
+
+        .glossary-item:hover {
+            transform: translateX(5px);
+        }
+
+        .glossary-term {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #0891b2;
+            margin-bottom: 0.5rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .glossary-icon {
+            font-size: 1.3rem;
+        }
+
+        .glossary-description {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+
+        .glossary-params {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .glossary-params li {
+            margin-bottom: 0.3rem;
+            color: #334155;
+            font-size: 0.9rem;
+        }
+
+        .param-name {
+            font-weight: 600;
+            color: #0e7490;
+            font-family: monospace;
+        }
+
+        .example-output {
+            background: #f8fafc;
+            border: 1px dashed #94a3b8;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #475569;
+            font-family: monospace;
+        }
+
+        .keyboard-demo {
+            display: inline-block;
+            background: #1e293b;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin: 0 0.2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .rotation-visual {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.8rem;
+            padding: 0.8rem;
+            background: #f1f5f9;
+            border-radius: 6px;
+            flex-wrap: wrap;
+        }
+
+        .rotate-box {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #0891b2, #06b6d4);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .rotate-90-cw {
+            transform: rotate(90deg);
+        }
+
+        .rotate-90-ccw {
+            transform: rotate(-90deg);
+        }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        .arrow {
+            color: #64748b;
+            font-size: 1.2rem;
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            max-width: 200px;
+            margin-top: 0.8rem;
+            padding: 0.8rem;
+            background: #f1f5f9;
+            border-radius: 6px;
+        }
+
+        .key-button {
+            background: #1e293b;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .key-empty {
+            background: transparent;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .glossary-item {
+                padding: 1rem;
+            }
+
+            .rotation-visual {
+                justify-content: center;
+            }
+        }
+
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-link">← Volver al portafolio</a>
+        <h1>Movimientos de Imagen</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Proyecto</h2>
+            <div class="code-block">
+<code>
+    #importa libreria opencv
+import cv2
+#guardamos
+imagen=cv2.imread("gatoo.jpg")
+original=imagen.copy()#creo una copia de la imagen original
+
+while True:#ciclo infinito
+    cv2.imshow("imagen inicial",imagen)
+    tecla=cv2.waitKey(0)#espera infinita hasta la presion de una tecla
+
+    if tecla==ord('d'): #Dire ala derecha
+        imagen=cv2.rotate(imagen,cv2.ROTATE_90_CLOCKWISE)
+        print("imagen rota ala derecha",tecla)
+    if tecla==ord('a'):
+        imagen=cv2.rotate(imagen, cv2.ROTATE_90_COUNTERCLOCKWISE)
+        print("se presiono la tecla",tecla)
+    if tecla==ord('w'):
+        imagen=cv2.rotate(imagen,cv2.ROTATE_180)
+        print("se presiono la tecla",tecla)
+    elif tecla==ord('s'):
+        print("se presiono la tecla",tecla)
+        break
+
+
+#muestro la imagen en una ventana
+#cv2.imshow("gatito",imagen)
+#espero
+#cv2.waitKey(0)
+#pip install opencv
+
+</code>
+            </div>
+        </section>
+
+        <!-- Controles del Programa -->
+        <section class="section">
+            <h2 class="section-title">🎮 Controles Interactivos</h2>
+            <div class="glossary">
+                <div class="glossary-item">
+                    <div class="glossary-description">
+                        Este programa permite rotar una imagen usando las teclas del teclado. 
+                        Los controles están inspirados en el movimiento de videojuegos WASD:
+                    </div>
+                    <div class="control-grid">
+                        <div class="key-empty"></div>
+                        <div class="key-button">W<br><small style="font-size: 0.6rem;">180°</small></div>
+                        <div class="key-empty"></div>
+                        <div class="key-button">A<br><small style="font-size: 0.6rem;">⟲</small></div>
+                        <div class="key-button">S<br><small style="font-size: 0.6rem;">SALIR</small></div>
+                        <div class="key-button">D<br><small style="font-size: 0.6rem;">⟳</small></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Glosario de Funciones -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Funciones y Conceptos</h2>
+            
+            <div class="glossary">
+                <!-- copy() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">📋</span>
+                        imagen.copy()
+                    </div>
+                    <div class="glossary-description">
+                        Crea una copia independiente de la imagen en memoria. Esto es crucial porque las operaciones 
+                        sobre arrays de NumPy son por referencia, no por valor. Sin copy(), modificar 'imagen' también 
+                        modificaría 'original'.
+                    </div>
+                    <div class="example-output">
+                        💡 Uso: Mantener una versión original intacta mientras se realizan transformaciones
+                    </div>
+                </div>
+
+                <!-- while True -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">♾️</span>
+                        while True:
+                    </div>
+                    <div class="glossary-description">
+                        Crea un ciclo infinito que solo se puede interrumpir con la instrucción 'break'. 
+                        En este programa, permite que el usuario rote la imagen múltiples veces hasta que 
+                        decida salir presionando la tecla <span class="keyboard-demo">S</span>.
+                    </div>
+                    <div class="example-output">
+                        ⚠️ Importante: Siempre debe tener una condición de salida (break) para evitar bloqueos
+                    </div>
+                </div>
+
+                <!-- ord() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔤</span>
+                        ord(caracter)
+                    </div>
+                    <div class="glossary-description">
+                        Función de Python que convierte un carácter en su valor ASCII (código numérico). 
+                        cv2.waitKey() retorna el código ASCII de la tecla presionada, por lo que necesitamos 
+                        ord() para comparar con caracteres legibles.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">ord('a'):</span> Retorna 97 (código ASCII de 'a')</li>
+                        <li><span class="param-name">ord('d'):</span> Retorna 100 (código ASCII de 'd')</li>
+                        <li><span class="param-name">ord('w'):</span> Retorna 119 (código ASCII de 'w')</li>
+                        <li><span class="param-name">ord('s'):</span> Retorna 115 (código ASCII de 's')</li>
+                    </ul>
+                </div>
+
+                <!-- cv2.rotate() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔄</span>
+                        cv2.rotate(src, rotateCode)
+                    </div>
+                    <div class="glossary-description">
+                        Función de OpenCV que rota una imagen en ángulos específicos (90°, 180°, 270°). 
+                        Es más eficiente que otras formas de rotación porque solo reorganiza los píxeles 
+                        sin necesidad de interpolación.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">src:</span> Imagen de entrada a rotar</li>
+                        <li><span class="param-name">rotateCode:</span> Constante que indica el tipo de rotación</li>
+                        <li><span class="param-name">return:</span> Nueva imagen rotada</li>
+                    </ul>
+                </div>
+
+                <!-- ROTATE_90_CLOCKWISE -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">⟳</span>
+                        cv2.ROTATE_90_CLOCKWISE
+                    </div>
+                    <div class="glossary-description">
+                        Constante que indica rotación de 90 grados en sentido horario (hacia la derecha). 
+                        Activada con la tecla <span class="keyboard-demo">D</span> en el programa.
+                    </div>
+                    <div class="rotation-visual">
+                        <div class="rotate-box">📷</div>
+                        <span class="arrow">→</span>
+                        <div class="rotate-box rotate-90-cw">📷</div>
+                        <span style="font-size: 0.85rem; color: #64748b;">90° derecha</span>
+                    </div>
+                </div>
+
+                <!-- ROTATE_90_COUNTERCLOCKWISE -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">⟲</span>
+                        cv2.ROTATE_90_COUNTERCLOCKWISE
+                    </div>
+                    <div class="glossary-description">
+                        Constante que indica rotación de 90 grados en sentido antihorario (hacia la izquierda). 
+                        Activada con la tecla <span class="keyboard-demo">A</span> en el programa.
+                    </div>
+                    <div class="rotation-visual">
+                        <div class="rotate-box">📷</div>
+                        <span class="arrow">→</span>
+                        <div class="rotate-box rotate-90-ccw">📷</div>
+                        <span style="font-size: 0.85rem; color: #64748b;">90° izquierda</span>
+                    </div>
+                </div>
+
+                <!-- ROTATE_180 -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">↻</span>
+                        cv2.ROTATE_180
+                    </div>
+                    <div class="glossary-description">
+                        Constante que indica rotación de 180 grados (media vuelta). Equivale a voltear 
+                        la imagen completamente. Activada con la tecla <span class="keyboard-demo">W</span> en el programa.
+                    </div>
+                    <div class="rotation-visual">
+                        <div class="rotate-box">📷</div>
+                        <span class="arrow">→</span>
+                        <div class="rotate-box rotate-180">📷</div>
+                        <span style="font-size: 0.85rem; color: #64748b;">180° completo</span>
+                    </div>
+                </div>
+
+                <!-- break -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🛑</span>
+                        break
+                    </div>
+                    <div class="glossary-description">
+                        Instrucción de Python que termina inmediatamente el ciclo más cercano (while o for). 
+                        En este programa, se ejecuta al presionar <span class="keyboard-demo">S</span>, 
+                        finalizando el ciclo infinito y cerrando la aplicación.
+                    </div>
+                    <div class="example-output">
+                        🎯 Flujo: Usuario presiona 'S' → elif detecta ord('s') → ejecuta break → sale del while → programa termina
+                    </div>
+                </div>
+
+                <!-- Diferencia if vs elif -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">⚡</span>
+                        Uso de if vs elif
+                    </div>
+                    <div class="glossary-description">
+                        En este código hay una combinación de 'if' consecutivos y un 'elif' final. 
+                        Los 'if' permiten evaluar múltiples condiciones independientemente, mientras que 
+                        'elif' solo se evalúa si las condiciones anteriores fueron falsas.
+                    </div>
+                    <div class="example-output">
+                        🔍 Nota: El 'elif' para 's' evita que se ejecute si ya se presionó 'd', 'a' o 'w'
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</body>
+</html>

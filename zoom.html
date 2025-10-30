@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoom - Detalle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Sección de Código */
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(8, 145, 178, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #0891b2;
+            font-weight: 400;
+            border-bottom: 2px solid #e0f2fe;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border: 1px solid #0891b2;
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre;
+        }
+
+        /* Sintaxis highlighting manual */
+        .keyword { color: #38bdf8; }
+        .string { color: #7dd3fc; }
+        .comment { color: #64748b; }
+        .function { color: #22d3ee; }
+        .number { color: #a78bfa; }
+
+        /* Glosario */
+        .glossary {
+            margin-top: 1.5rem;
+        }
+
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            border-radius: 8px;
+            border-left: 4px solid #0891b2;
+            transition: transform 0.2s ease;
+        }
+
+        .glossary-item:hover {
+            transform: translateX(5px);
+        }
+
+        .glossary-term {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #0891b2;
+            margin-bottom: 0.5rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .glossary-icon {
+            font-size: 1.3rem;
+        }
+
+        .glossary-description {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+
+        .glossary-params {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .glossary-params li {
+            margin-bottom: 0.3rem;
+            color: #334155;
+            font-size: 0.9rem;
+        }
+
+        .param-name {
+            font-weight: 600;
+            color: #0e7490;
+            font-family: monospace;
+        }
+
+        .example-output {
+            background: #f8fafc;
+            border: 1px dashed #94a3b8;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #475569;
+            font-family: monospace;
+        }
+
+        .zoom-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+            padding: 1.5rem;
+            background: #f1f5f9;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+
+        .control-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .key-button {
+            background: #1e293b;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .key-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .key-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            text-align: center;
+        }
+
+        .zoom-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding: 1.5rem;
+            background: #f1f5f9;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+
+        .zoom-box {
+            background: linear-gradient(135deg, #0891b2, #06b6d4);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .zoom-small {
+            width: 40px;
+            height: 40px;
+            font-size: 0.8rem;
+        }
+
+        .zoom-normal {
+            width: 60px;
+            height: 60px;
+            font-size: 1rem;
+        }
+
+        .zoom-large {
+            width: 90px;
+            height: 90px;
+            font-size: 1.3rem;
+        }
+
+        .arrow {
+            color: #64748b;
+            font-size: 1.5rem;
+        }
+
+        .zoom-factor {
+            background: #0e7490;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .glossary-item {
+                padding: 1rem;
+            }
+
+            .zoom-controls {
+                gap: 0.8rem;
+            }
+
+            .key-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-link">← Volver al portafolio</a>
+        <h1>Zoom Interactivo</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Proyecto</h2>
+            <div class="code-block">
+<code>
+    def zoom():
+
+    import cv2
+    #cargo de la imagen en una variable
+    img_original=cv2.imread("ga.jpg")
+    #creando variable para el valor de zoom original
+    zoom=1.0
+
+    while True:
+        img=cv2.resize(img_original,None,fx=zoom,fy=zoom)
+
+        cv2.imshow("imagen nueva", img)
+        tecla=cv2.waitKey(0)
+        if tecla==ord("+"):
+            zoom=zoom*1.2
+        elif tecla==ord("-"):
+            zoom=zoom*0.5
+        elif tecla == ord("o"):
+            zoom=1.0
+        elif tecla==ord("x"):
+            break
+
+
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+</code>
+            </div>
+        </section>
+
+        <!-- Controles del Programa -->
+        <section class="section">
+            <h2 class="section-title">🎮 Controles Interactivos de Zoom</h2>
+            <div class="glossary">
+                <div class="glossary-item">
+                    <div class="glossary-description">
+                        Este programa permite hacer zoom in/out de manera interactiva usando el teclado. 
+                        Cada tecla controla un aspecto diferente del nivel de zoom:
+                    </div>
+                    <div class="zoom-controls">
+                        <div class="control-button">
+                            <div class="key-button">+</div>
+                            <div class="key-label">Acercar<br>(×1.2)</div>
+                        </div>
+                        <div class="control-button">
+                            <div class="key-button">-</div>
+                            <div class="key-label">Alejar<br>(×0.5)</div>
+                        </div>
+                        <div class="control-button">
+                            <div class="key-button">O</div>
+                            <div class="key-label">Original<br>(1.0)</div>
+                        </div>
+                        <div class="control-button">
+                            <div class="key-button">X</div>
+                            <div class="key-label">Salir</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualización de Zoom -->
+        <section class="section">
+            <h2 class="section-title">🔍 Visualización de Niveles de Zoom</h2>
+            <div class="glossary">
+                <div class="glossary-item">
+                    <div class="glossary-description">
+                        Así funciona el zoom con cada tecla presionada:
+                    </div>
+                    <div class="zoom-visual">
+                        <div>
+                            <div class="zoom-box zoom-small">IMG</div>
+                            <div class="zoom-factor">zoom × 0.5</div>
+                            <div style="text-align: center; margin-top: 0.5rem; font-size: 0.85rem; color: #64748b;">Tecla: -</div>
+                        </div>
+                        <span class="arrow">→</span>
+                        <div>
+                            <div class="zoom-box zoom-normal">IMG</div>
+                            <div class="zoom-factor">zoom = 1.0</div>
+                            <div style="text-align: center; margin-top: 0.5rem; font-size: 0.85rem; color: #64748b;">Tecla: O</div>
+                        </div>
+                        <span class="arrow">→</span>
+                        <div>
+                            <div class="zoom-box zoom-large">IMG</div>
+                            <div class="zoom-factor">zoom × 1.2</div>
+                            <div style="text-align: center; margin-top: 0.5rem; font-size: 0.85rem; color: #64748b;">Tecla: +</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Glosario de Funciones -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Funciones y Conceptos</h2>
+            
+            <div class="glossary">
+                <!-- def zoom() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">⚙️</span>
+                        def zoom():
+                    </div>
+                    <div class="glossary-description">
+                        Definición de función personalizada que encapsula toda la lógica del zoom interactivo. 
+                        Al encapsular el código en una función, se puede reutilizar fácilmente y mantener 
+                        el código organizado.
+                    </div>
+                    <div class="example-output">
+                        💡 Para ejecutar: simplemente llamar zoom() después de definir la función
+                    </div>
+                </div>
+
+                <!-- Variable zoom -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔢</span>
+                        zoom = 1.0
+                    </div>
+                    <div class="glossary-description">
+                        Variable que almacena el factor de escala actual. Inicia en 1.0 (tamaño original) 
+                        y se multiplica o divide según las teclas presionadas. Es un valor flotante (float) 
+                        que puede tener decimales.
+                    </div>
+                    <div class="example-output">
+                        📊 Valores típicos:<br>
+                        • zoom = 0.5 → Imagen a la mitad del tamaño<br>
+                        • zoom = 1.0 → Tamaño original<br>
+                        • zoom = 2.0 → Imagen al doble del tamaño
+                    </div>
+                </div>
+
+                <!-- Ciclo while True -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">♾️</span>
+                        while True (Ciclo Interactivo)
+                    </div>
+                    <div class="glossary-description">
+                        Ciclo infinito que mantiene el programa activo y esperando interacción del usuario. 
+                        En cada iteración redimensiona la imagen según el valor actual de zoom y espera 
+                        una tecla para actualizar.
+                    </div>
+                    <div class="example-output">
+                        🔄 Flujo: Mostrar imagen → Esperar tecla → Ajustar zoom → Repetir
+                    </div>
+                </div>
+
+                <!-- Tecla + -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔍</span>
+                        Tecla "+" (Zoom In)
+                    </div>
+                    <div class="glossary-description">
+                        Al presionar "+", el valor de zoom se multiplica por 1.2 (aumenta 20%). 
+                        Esto acerca la imagen haciendo que se vea más grande. Cada presión sucesiva 
+                        incrementa el zoom exponencialmente.
+                    </div>
+                    <div class="example-output">
+                        🔢 Secuencia: 1.0 → 1.2 → 1.44 → 1.728 → 2.074 → ...
+                    </div>
+                </div>
+
+                <!-- Tecla - -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔎</span>
+                        Tecla "-" (Zoom Out)
+                    </div>
+                    <div class="glossary-description">
+                        Al presionar "-", el valor de zoom se multiplica por 0.5 (reduce a la mitad). 
+                        Esto aleja la imagen haciendo que se vea más pequeña. Es más agresivo que el zoom in 
+                        porque reduce al 50% en lugar de aumentar solo 20%.
+                    </div>
+                    <div class="example-output">
+                        🔢 Secuencia: 1.0 → 0.5 → 0.25 → 0.125 → 0.0625 → ...
+                    </div>
+                </div>
+
+                <!-- Tecla o -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🎯</span>
+                        Tecla "O" (Original)
+                    </div>
+                    <div class="glossary-description">
+                        Tecla de "reset" que restaura el zoom a su valor original (1.0). 
+                        Útil cuando el usuario ha hecho muchos zoom in/out y quiere volver rápidamente 
+                        al tamaño inicial sin tener que calcular cuántas veces presionar + o -.
+                    </div>
+                    <div class="example-output">
+                        🔄 Cualquier valor → 1.0 (tamaño original)
+                    </div>
+                </div>
+
+                <!-- Tecla x -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">❌</span>
+                        Tecla "X" (Salir)
+                    </div>
+                    <div class="glossary-description">
+                        Tecla de salida que ejecuta el comando 'break', terminando el ciclo while. 
+                        Después del break, el programa continúa con las líneas siguientes que cierran 
+                        las ventanas de OpenCV.
+                    </div>
+                    <div class="example-output">
+                        ⚠️ Importante: Sin esta opción, el programa quedaría atrapado en el ciclo infinito
+                    </div>
+                </div>
+
+                <!-- resize con None -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">📏</span>
+                        cv2.resize(img, None, fx=zoom, fy=zoom)
+                    </div>
+                    <div class="glossary-description">
+                        Redimensiona la imagen usando factores de escala en lugar de dimensiones fijas. 
+                        Al pasar 'None' como segundo parámetro, le indica a OpenCV que use los factores 
+                        fx y fy. Ambos usan la misma variable 'zoom' para mantener la proporción.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">img_original:</span> Imagen base sin modificar</li>
+                        <li><span class="param-name">None:</span> No usar dimensiones fijas</li>
+                        <li><span class="param-name">fx=zoom:</span> Factor de escala horizontal</li>
+                        <li><span class="param-name">fy=zoom:</span> Factor de escala vertical</li>
+                    </ul>
+                </div>
+
+                <!-- Multiplicación acumulativa -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">✖️</span>
+                        zoom = zoom * factor
+                    </div>
+                    <div class="glossary-description">
+                        Operación de multiplicación acumulativa que modifica el valor de zoom basándose 
+                        en su valor previo. Esto permite zoom progresivo - cada acción se aplica sobre 
+                        el resultado anterior, no sobre el original.
+                    </div>
+                    <div class="example-output">
+                        📐 Ejemplo:<br>
+                        • Inicio: zoom = 1.0<br>
+                        • Presiono "+": zoom = 1.0 × 1.2 = 1.2<br>
+                        • Presiono "+" otra vez: zoom = 1.2 × 1.2 = 1.44<br>
+                        • Presiono "-": zoom = 1.44 × 0.5 = 0.72
+                    </div>
+                </div>
+
+                <!-- Buenas prácticas -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">💡</span>
+                        Buenas Prácticas de Zoom
+                    </div>
+                    <div class="glossary-description">
+                        Consideraciones importantes al implementar zoom interactivo:
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">Mantener original:</span> Siempre redimensionar desde img_original, no de img modificada</li>
+                        <li><span class="param-name">Límites de zoom:</span> Podrías agregar límites (ej: zoom entre 0.1 y 5.0)</li>
+                        <li><span class="param-name">Factores balanceados:</span> 1.2 para acercar y 0.5 para alejar es asimétrico - considera usar 1.2 y (1/1.2)=0.833</li>
+                        <li><span class="param-name">Interpolación:</span> Para zoom grandes, considera usar interpolación INTER_CUBIC</li>
+                        <li><span class="param-name">Memoria:</span> Zoom muy grandes pueden consumir mucha RAM</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</body>
+</html>

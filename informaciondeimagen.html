@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información de Imagen - Detalle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Sección de Código */
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(8, 145, 178, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #0891b2;
+            font-weight: 400;
+            border-bottom: 2px solid #e0f2fe;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border: 1px solid #0891b2;
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre;
+        }
+
+        /* Sintaxis highlighting manual */
+        .keyword { color: #38bdf8; }
+        .string { color: #7dd3fc; }
+        .comment { color: #64748b; }
+        .function { color: #22d3ee; }
+        .number { color: #a78bfa; }
+
+        /* Glosario */
+        .glossary {
+            margin-top: 1.5rem;
+        }
+
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            border-radius: 8px;
+            border-left: 4px solid #0891b2;
+            transition: transform 0.2s ease;
+        }
+
+        .glossary-item:hover {
+            transform: translateX(5px);
+        }
+
+        .glossary-term {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #0891b2;
+            margin-bottom: 0.5rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .glossary-icon {
+            font-size: 1.3rem;
+        }
+
+        .glossary-description {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+
+        .glossary-params {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .glossary-params li {
+            margin-bottom: 0.3rem;
+            color: #334155;
+            font-size: 0.9rem;
+        }
+
+        .param-name {
+            font-weight: 600;
+            color: #0e7490;
+            font-family: monospace;
+        }
+
+        .example-output {
+            background: #f8fafc;
+            border: 1px dashed #94a3b8;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #475569;
+            font-family: monospace;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .glossary-item {
+                padding: 1rem;
+            }
+        }
+
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-link">← Volver al portafolio</a>
+        <h1>Información de Imagen</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Proyecto</h2>
+            <div class="code-block">
+<code>
+import cv2
+
+img = cv2.imread('gato.jpg')
+print("Dimensiones:", img.shape) #imensiones de la imagen. El formato es: (alto, ancho, canales)
+print("Alto:", img.shape[0])# representa el alto (número de filas) o la cantidad de píxeles verticales.
+print("Ancho:", img.shape[1]) #indica el ancho (número de columnas) o la cantidad de píxeles horizontales.
+print("Canales de color:", img.shape[2])
+</code>
+            </div>
+        </section>
+
+        <!-- Glosario de Funciones -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Funciones y Propiedades</h2>
+            
+            <div class="glossary">
+                <!-- Función Principal -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🎯</span>
+                        obtener_info_imagen(ruta_imagen)
+                    </div>
+                    <div class="glossary-description">
+                        Función principal que extrae información completa de una imagen combinando OpenCV y PIL. 
+                        Muestra dimensiones, formato, tamaño en memoria y estadísticas de color de forma organizada.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">ruta_imagen:</span> String con la ruta del archivo a analizar</li>
+                        <li><span class="param-name">return:</span> Diccionario con información clave de la imagen</li>
+                    </ul>
+                </div>
+
+                <!-- shape -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">📐</span>
+                        imagen.shape
+                    </div>
+                    <div class="glossary-description">
+                        Atributo de NumPy que retorna una tupla con las dimensiones de la matriz de la imagen. 
+                        Para imágenes a color retorna (alto, ancho, canales), para escala de grises solo (alto, ancho).
+                    </div>
+                    <div class="example-output">
+                        💡 Ejemplo: (1080, 1920, 3) significa 1080px alto × 1920px ancho × 3 canales BGR
+                    </div>
+                </div>
+
+                <!-- format -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">📄</span>
+                        imagen.format
+                    </div>
+                    <div class="glossary-description">
+                        Propiedad de PIL que identifica el formato del archivo de imagen original. 
+                        Indica el tipo de compresión o codificación utilizada (JPEG, PNG, BMP, GIF, etc.).
+                    </div>
+                    <div class="example-output">
+                        💡 Ejemplos: 'JPEG', 'PNG', 'BMP', 'TIFF', 'GIF'
+                    </div>
+                </div>
+
+                <!-- mode -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🎨</span>
+                        imagen.mode
+                    </div>
+                    <div class="glossary-description">
+                        Propiedad de PIL que describe el modo de color y profundidad de bits de la imagen. 
+                        Define cómo se representan los colores y cuántos canales tiene.
+                    </div>
+                    <div class="example-output">
+                        💡 Modos comunes: 'RGB' (color), 'L' (escala de grises), 'RGBA' (con transparencia), 'CMYK' (impresión)
+                    </div>
+                </div>
+
+                <!-- nbytes -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">💾</span>
+                        imagen.nbytes
+                    </div>
+                    <div class="glossary-description">
+                        Atributo de NumPy que retorna el número total de bytes que ocupa la matriz en memoria RAM. 
+                        Útil para optimizar el uso de memoria en aplicaciones que procesan múltiples imágenes.
+                    </div>
+                    <div class="example-output">
+                        💡 Cálculo: alto × ancho × canales × bytes_por_valor (típicamente 1 byte para uint8)
+                    </div>
+                </div>
+
+                <!-- dtype -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔢</span>
+                        imagen.dtype
+                    </div>
+                    <div class="glossary-description">
+                        Atributo que indica el tipo de dato de cada elemento en la matriz NumPy. 
+                        Por defecto, OpenCV usa uint8 (enteros sin signo de 8 bits) con rango 0-255.
+                    </div>
+                    <div class="example-output">
+                        💡 Tipos comunes: uint8 (0-255), float32 (0.0-1.0 normalizado), uint16 (0-65535)
+                    </div>
+                </div>
+
+                <!-- np.mean -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">📊</span>
+                        np.mean(imagen, axis=(0,1))
+                    </div>
+                    <div class="glossary-description">
+                        Función de NumPy que calcula el promedio de intensidad para cada canal de color. 
+                        El parámetro axis=(0,1) indica que debe promediar a lo largo de alto y ancho, preservando canales.
+                    </div>
+                    <div class="example-output">
+                        💡 Resultado: [120.5, 135.2, 98.7] → Promedio de Azul, Verde, Rojo
+                    </div>
+                </div>
+
+                <!-- np.std -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">📈</span>
+                        np.std(imagen, axis=(0,1))
+                    </div>
+                    <div class="glossary-description">
+                        Calcula la desviación estándar de cada canal, midiendo cuánto varían los valores de píxeles 
+                        respecto al promedio. Una desviación alta indica mayor variedad de colores.
+                    </div>
+                    <div class="example-output">
+                        💡 Interpretación: Valores bajos = imagen uniforme, valores altos = mucho contraste
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</body>
+</html>

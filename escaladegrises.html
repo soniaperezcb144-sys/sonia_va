@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escala de Grises - Detalle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(180deg, #0099cc 0%, #00bcd4 100%);
+    color: white;
+    padding: 3rem 2rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Sección de Código */
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(8, 145, 178, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #0891b2;
+            font-weight: 400;
+            border-bottom: 2px solid #e0f2fe;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border: 1px solid #0891b2;
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre;
+        }
+
+        /* Sintaxis highlighting manual */
+        .keyword { color: #38bdf8; }
+        .string { color: #7dd3fc; }
+        .comment { color: #64748b; }
+        .function { color: #22d3ee; }
+        .number { color: #a78bfa; }
+
+        /* Glosario */
+        .glossary {
+            margin-top: 1.5rem;
+        }
+
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0f2fe;
+        }
+
+        .glossary-item:last-child {
+            border-bottom: none;
+        }
+
+        .glossary-term {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #0891b2;
+            margin-bottom: 0.5rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+
+        .glossary-description {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .glossary-params {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .glossary-params li {
+            margin-bottom: 0.3rem;
+            color: #334155;
+            font-size: 0.9rem;
+        }
+
+        .param-name {
+            font-weight: 600;
+            color: #0e7490;
+            font-family: monospace;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-link">← Volver al portafolio</a>
+        <h1>Escala de Grises</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Proyecto</h2>
+            <div class="code-block">
+<code>
+    import cv2
+
+img = cv2.imread('equipo.jpg') #devuelve una matriz NumPy que representa la imagen en formato BGR (Azul, Verde, Rojo).
+gris = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)#Convierte la imagen de color (BGR) a escala de grises.
+
+cv2.imshow('Original', img) #Muestra una ventana con el nombre "Original" que contiene la imagen a color.
+cv2.imshow('Escala de Grises', gris)#Muestra otra ventana con el título "Escala de Grises",
+cv2.waitKey(0)#El parámetro 0 significa “esperar indefinidamente”.
+
+#Si pusieras un número, por ejemplo 1000, esperaría 1000 milisegundos (1 segundo) antes de cerrar las ventanas automáticamente."""
+cv2.destroyAllWindows()
+</code>
+            </div>
+        </section>
+
+        <!-- Glosario de Funciones -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Funciones</h2>
+            
+            <div class="glossary">
+                <!-- Función 1 -->
+                <div class="glossary-item">
+                    <div class="glossary-term">cv2.imread(filename)</div>
+                    <div class="glossary-description">
+                        Lee una imagen desde un archivo y la devuelve como una matriz NumPy. 
+                        La imagen se carga en formato BGR (Azul, Verde, Rojo), que es el formato por defecto de OpenCV.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">filename:</span> String con el nombre o ruta del archivo de imagen</li>
+                        <li><span class="param-name">return:</span> Matriz NumPy tridimensional (altura, ancho, canales BGR)</li>
+                    </ul>
+                </div>
+
+                <!-- Función 2 -->
+                <div class="glossary-item">
+                    <div class="glossary-term">cv2.cvtColor(img, code)</div>
+                    <div class="glossary-description">
+                        Convierte una imagen de un espacio de color a otro. En este caso, usa cv2.COLOR_BGR2GRAY 
+                        para convertir de BGR (color) a escala de grises usando la fórmula estándar: 
+                        Y = 0.299*R + 0.587*G + 0.114*B
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">img:</span> Imagen de entrada (matriz NumPy)</li>
+                        <li><span class="param-name">code:</span> Código de conversión (ej: COLOR_BGR2GRAY)</li>
+                        <li><span class="param-name">return:</span> Imagen convertida en el nuevo espacio de color</li>
+                    </ul>
+                </div>
+
+                <!-- Función 3 -->
+                <div class="glossary-item">
+                    <div class="glossary-term">cv2.imshow(winname, mat)</div>
+                    <div class="glossary-description">
+                        Muestra una imagen en una ventana específica. Crea una ventana con el nombre especificado 
+                        y visualiza la imagen proporcionada. La ventana se ajusta automáticamente al tamaño de la imagen.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">winname:</span> String con el nombre de la ventana</li>
+                        <li><span class="param-name">mat:</span> Imagen a mostrar (matriz NumPy)</li>
+                        <li><span class="param-name">return:</span> None</li>
+                    </ul>
+                </div>
+
+                <!-- Función 4 -->
+                <div class="glossary-item">
+                    <div class="glossary-term">cv2.waitKey(delay)</div>
+                    <div class="glossary-description">
+                        Espera a que el usuario presione una tecla durante un tiempo específico. 
+                        Es necesaria para mantener las ventanas abiertas y capturar eventos del teclado.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">delay:</span> Tiempo de espera en milisegundos. Si es 0, espera indefinidamente</li>
+                        <li><span class="param-name">return:</span> Código ASCII de la tecla presionada, o -1 si no se presionó ninguna</li>
+                    </ul>
+                </div>
+
+                <!-- Función 5 -->
+                <div class="glossary-item">
+                    <div class="glossary-term">cv2.destroyAllWindows()</div>
+                    <div class="glossary-description">
+                        Cierra todas las ventanas de OpenCV que se hayan creado durante la ejecución del programa. 
+                        Libera los recursos asociados a las ventanas. Es una buena práctica llamarla al finalizar.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">return:</span> None</li>
+                    </ul>
+                </div>
+
+                <!-- Constantes -->
+                <div class="glossary-item">
+                    <div class="glossary-term">cv2.COLOR_BGR2GRAY</div>
+                    <div class="glossary-description">
+                        Constante que indica el tipo de conversión de color a realizar. 
+                        Convierte una imagen de 3 canales BGR (Azul, Verde, Rojo) a 1 canal en escala de grises. 
+                        La conversión utiliza ponderaciones específicas para cada canal que se ajustan a la percepción humana.
+                    </div>
+                </div>
+
+                <!-- Concepto BGR -->
+                <div class="glossary-item">
+                    <div class="glossary-term">Formato BGR</div>
+                    <div class="glossary-description">
+                        OpenCV utiliza el orden BGR (Azul, Verde, Rojo) en lugar de RGB (Rojo, Verde, Azul). 
+                        Esto es importante al trabajar con otras bibliotecas como PIL o Matplotlib que usan RGB. 
+                        Cada canal tiene valores de 0 a 255.
+                    </div>
+                </div>
+
+                <!-- Concepto Escala de Grises -->
+                <div class="glossary-item">
+                    <div class="glossary-term">Escala de Grises</div>
+                    <div class="glossary-description">
+                        Representación de una imagen usando un solo canal de intensidad. 
+                        Cada píxel tiene un valor entre 0 (negro) y 255 (blanco). 
+                        Reduce el tamaño de la imagen en memoria y es útil para muchos algoritmos de procesamiento de imágenes.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
