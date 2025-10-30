@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preprocesamiento - Detalle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Sección de Código */
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(8, 145, 178, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #0891b2;
+            font-weight: 400;
+            border-bottom: 2px solid #e0f2fe;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border: 1px solid #0891b2;
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre;
+        }
+
+        /* Sintaxis highlighting manual */
+        .keyword { color: #38bdf8; }
+        .string { color: #7dd3fc; }
+        .comment { color: #64748b; }
+        .function { color: #22d3ee; }
+        .number { color: #a78bfa; }
+
+        /* Glosario */
+        .glossary {
+            margin-top: 1.5rem;
+        }
+
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            border-radius: 8px;
+            border-left: 4px solid #0891b2;
+            transition: transform 0.2s ease;
+        }
+
+        .glossary-item:hover {
+            transform: translateX(5px);
+        }
+
+        .glossary-term {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #0891b2;
+            margin-bottom: 0.5rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .glossary-icon {
+            font-size: 1.3rem;
+        }
+
+        .glossary-description {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+
+        .glossary-params {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .glossary-params li {
+            margin-bottom: 0.3rem;
+            color: #334155;
+            font-size: 0.9rem;
+        }
+
+        .param-name {
+            font-weight: 600;
+            color: #0e7490;
+            font-family: monospace;
+        }
+
+        .example-output {
+            background: #f8fafc;
+            border: 1px dashed #94a3b8;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #475569;
+            font-family: monospace;
+        }
+
+        .menu-visual {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border: 2px solid #0891b2;
+        }
+
+        .menu-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #22d3ee;
+        }
+
+        .menu-option {
+            padding: 0.5rem 0;
+            border-left: 3px solid #0891b2;
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .menu-option:hover {
+            border-left-color: #22d3ee;
+            background: rgba(34, 211, 238, 0.1);
+            padding-left: 1.5rem;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .module-card {
+            background: linear-gradient(135deg, #0891b2, #06b6d4);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .module-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .module-file {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            font-family: monospace;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #f1f5f9;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            border: 2px solid #0891b2;
+            font-weight: 600;
+            color: #0891b2;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: #64748b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .glossary-item {
+                padding: 1rem;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-link">← Volver al portafolio</a>
+        <h1>Preprocesamiento de Imágenes</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Proyecto</h2>
+            <div class="code-block">
+<code>
+    import cv2
+
+from Coordenadas import recortes
+from Movimiento import movimiento
+from zoom_img import zoom
+
+while True:
+    opcion=int(input("PROCESAMIENTO DE IMAGENES \n 1.Recortar \n 2.Girar \n 3.Zoom \n 4.Salir \n Selecciona una opcion:"))
+
+    if opcion==1:
+        print("Ejecuta el archivo coordenadas")
+        recortes()
+    elif opcion==2:
+        print("Ejecuta el archivo movimientos")
+        movimiento()
+    elif opcion==3:
+        print("Ejecuta el archivo zoom")
+        zoom()
+    elif opcion==4:
+        print("Salir del programa")
+    break
+</code>
+            </div>
+        </section>
+
+        <!-- Menú Visual -->
+        <section class="section">
+            <h2 class="section-title">📋 Menú Interactivo del Sistema</h2>
+            <div class="glossary">
+                <div class="glossary-item">
+                    <div class="glossary-description">
+                        El programa presenta un menú de consola que permite seleccionar diferentes operaciones 
+                        de preprocesamiento de imágenes:
+                    </div>
+                    <div class="menu-visual">
+                        <div class="menu-title">PROCESAMIENTO DE IMAGENES</div>
+                        <div class="menu-option">1. Recortar</div>
+                        <div class="menu-option">2. Girar</div>
+                        <div class="menu-option">3. Zoom</div>
+                        <div class="menu-option">4. Salir</div>
+                        <div style="margin-top: 1rem; color: #7dd3fc;">Selecciona una opcion: _</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Módulos del Sistema -->
+        <section class="section">
+            <h2 class="section-title">🧩 Módulos del Sistema</h2>
+            <div class="glossary">
+                <div class="glossary-item">
+                    <div class="glossary-description">
+                        El sistema está organizado en módulos separados, cada uno con su funcionalidad específica:
+                    </div>
+                    <div class="module-grid">
+                        <div class="module-card">
+                            <div class="module-icon">✂️</div>
+                            <div class="module-name">Recortes</div>
+                            <div class="module-file">Coordenadas.py</div>
+                        </div>
+                        <div class="module-card">
+                            <div class="module-icon">🔄</div>
+                            <div class="module-name">Movimiento</div>
+                            <div class="module-file">Movimiento.py</div>
+                        </div>
+                        <div class="module-card">
+                            <div class="module-icon">🔍</div>
+                            <div class="module-name">Zoom</div>
+                            <div class="module-file">zoom_img.py</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flujo del Programa -->
+        <section class="section">
+            <h2 class="section-title">🔀 Flujo del Programa</h2>
+            <div class="glossary">
+                <div class="glossary-item">
+                    <div class="glossary-description">
+                        Diagrama del flujo de ejecución del sistema:
+                    </div>
+                    <div class="flow-diagram">
+                        <div class="flow-box">Inicio</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">Mostrar Menú</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">Usuario Elige</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">Ejecutar Módulo</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">Repetir / Salir</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Glosario de Funciones -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Conceptos y Funciones</h2>
+            
+            <div class="glossary">
+                <!-- import -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">📦</span>
+                        import / from ... import
+                    </div>
+                    <div class="glossary-description">
+                        Instrucciones que importan módulos externos. 'import cv2' importa la librería OpenCV completa. 
+                        'from modulo import funcion' importa una función específica de un módulo personalizado.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">cv2:</span> Librería OpenCV para procesamiento de imágenes</li>
+                        <li><span class="param-name">Coordenadas:</span> Módulo personalizado con función recortes()</li>
+                        <li><span class="param-name">Movimiento:</span> Módulo personalizado con función movimiento()</li>
+                        <li><span class="param-name">zoom_img:</span> Módulo personalizado con función zoom()</li>
+                    </ul>
+                </div>
+
+                <!-- while True menú -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">♾️</span>
+                        while True (Menú Persistente)
+                    </div>
+                    <div class="glossary-description">
+                        Ciclo infinito que mantiene el menú activo. Permite al usuario realizar múltiples operaciones 
+                        sin tener que reiniciar el programa cada vez. Solo termina cuando se selecciona la opción "4. Salir".
+                    </div>
+                    <div class="example-output">
+                        🔄 Flujo: Usuario realiza operación → Vuelve al menú → Puede elegir otra operación
+                    </div>
+                </div>
+
+                <!-- input() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">⌨️</span>
+                        input(prompt)
+                    </div>
+                    <div class="glossary-description">
+                        Función que muestra el menú y espera que el usuario ingrese un número. 
+                        El símbolo '\n' crea saltos de línea para formatear el menú verticalmente.
+                    </div>
+                    <div class="example-output">
+                        💡 El menú se muestra cada vez que el ciclo se repite
+                    </div>
+                </div>
+
+                <!-- int() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔢</span>
+                        int(valor)
+                    </div>
+                    <div class="glossary-description">
+                        Convierte el texto ingresado por el usuario en un número entero. 
+                        input() siempre retorna un string, pero necesitamos un número para comparar con las opciones.
+                    </div>
+                    <div class="example-output">
+                        ⚠️ Si el usuario ingresa algo que no es número, causará error (ValueError)
+                    </div>
+                </div>
+
+                <!-- Opción 1: recortes() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">✂️</span>
+                        Opción 1: recortes()
+                    </div>
+                    <div class="glossary-description">
+                        Llama a la función recortes() del módulo Coordenadas.py. Esta función permite al usuario 
+                        seleccionar una región de interés (ROI) de la imagen usando coordenadas y recortarla.
+                    </div>
+                    <div class="example-output">
+                        📐 Uso típico: Extraer solo una parte específica de la imagen (ej: un rostro, un objeto)
+                    </div>
+                </div>
+
+                <!-- Opción 2: movimiento() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔄</span>
+                        Opción 2: movimiento()
+                    </div>
+                    <div class="glossary-description">
+                        Ejecuta la función movimiento() del módulo Movimiento.py. Permite rotar la imagen 
+                        interactivamente usando las teclas WASD (90° derecha, 90° izquierda, 180°).
+                    </div>
+                    <div class="example-output">
+                        🎮 Controles: W=180°, A=90° izq, S=Salir, D=90° der
+                    </div>
+                </div>
+
+                <!-- Opción 3: zoom() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔍</span>
+                        Opción 3: zoom()
+                    </div>
+                    <div class="glossary-description">
+                        Ejecuta la función zoom() del módulo zoom_img.py. Permite hacer zoom in/out de manera 
+                        interactiva usando las teclas +, -, O (original) y X (salir).
+                    </div>
+                    <div class="example-output">
+                        🔍 Controles: + (acercar), - (alejar), O (original), X (salir)
+                    </div>
+                </div>
+
+                <!-- Opción 4: break -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🚪</span>
+                        Opción 4: Salir (break)
+                    </div>
+                    <div class="glossary-description">
+                        Cuando el usuario selecciona 4, se imprime un mensaje y se ejecuta 'break', 
+                        terminando el ciclo while y finalizando el programa completamente.
+                    </div>
+                    <div class="example-output">
+                        🛑 Es la única forma de salir del programa de manera controlada
+                    </div>
+                </div>
+
+                <!-- Estructura if-elif -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔀</span>
+                        Estructura if-elif
+                    </div>
+                    <div class="glossary-description">
+                        Estructura de control que evalúa múltiples condiciones mutuamente excluyentes. 
+                        Solo se ejecuta la primera condición que sea verdadera, luego continúa después del bloque completo.
+                    </div>
+                    <div class="example-output">
+                        🔍 Flujo: Si opcion==1 → ejecuta recortes() | Si no, si opcion==2 → ejecuta movimiento() | etc.
+                    </div>
+                </div>
+
+                <!-- Arquitectura modular -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🏗️</span>
+                        Arquitectura Modular
+                    </div>
+                    <div class="glossary-description">
+                        Este programa utiliza una arquitectura modular donde cada funcionalidad está en su propio archivo. 
+                        Ventajas: código organizado, fácil mantenimiento, reutilización de funciones, y trabajo en equipo eficiente.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">main.py:</span> Archivo principal con menú (este código)</li>
+                        <li><span class="param-name">Coordenadas.py:</span> Módulo de recorte</li>
+                        <li><span class="param-name">Movimiento.py:</span> Módulo de rotación</li>
+                        <li><span class="param-name">zoom_img.py:</span> Módulo de zoom</li>
+                    </ul>
+                </div>
+
+                <!-- Preprocesamiento -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">⚙️</span>
+                        ¿Qué es Preprocesamiento?
+                    </div>
+                    <div class="glossary-description">
+                        Conjunto de técnicas aplicadas a imágenes antes de su análisis o procesamiento principal. 
+                        Incluye: recorte, rotación, redimensionamiento, normalización, filtrado, etc. 
+                        Es crucial en visión artificial e inteligencia artificial.
+                    </div>
+                    <div class="example-output">
+                        🎯 Objetivo: Mejorar calidad, reducir ruido, normalizar datos, extraer características relevantes
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</body>
+</html>

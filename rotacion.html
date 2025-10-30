@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotación de Imagen - Detalle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Sección de Código */
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(8, 145, 178, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #0891b2;
+            font-weight: 400;
+            border-bottom: 2px solid #e0f2fe;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border: 1px solid #0891b2;
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre;
+        }
+
+        /* Sintaxis highlighting manual */
+        .keyword { color: #38bdf8; }
+        .string { color: #7dd3fc; }
+        .comment { color: #64748b; }
+        .function { color: #22d3ee; }
+        .number { color: #a78bfa; }
+
+        /* Glosario */
+        .glossary {
+            margin-top: 1.5rem;
+        }
+
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            border-radius: 8px;
+            border-left: 4px solid #0891b2;
+            transition: transform 0.2s ease;
+        }
+
+        .glossary-item:hover {
+            transform: translateX(5px);
+        }
+
+        .glossary-term {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #0891b2;
+            margin-bottom: 0.5rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .glossary-icon {
+            font-size: 1.3rem;
+        }
+
+        .glossary-description {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+
+        .glossary-params {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .glossary-params li {
+            margin-bottom: 0.3rem;
+            color: #334155;
+            font-size: 0.9rem;
+        }
+
+        .param-name {
+            font-weight: 600;
+            color: #0e7490;
+            font-family: monospace;
+        }
+
+        .example-output {
+            background: #f8fafc;
+            border: 1px dashed #94a3b8;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #475569;
+            font-family: monospace;
+        }
+
+        .keyboard-demo {
+            display: inline-block;
+            background: #1e293b;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin: 0 0.2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .rotation-visual {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding: 1.5rem;
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+
+        .rotate-item {
+            text-align: center;
+        }
+
+        .rotate-box {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #0891b2, #06b6d4);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 2rem;
+            margin: 0 auto 0.8rem;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .rotate-90-cw {
+            transform: rotate(90deg);
+        }
+
+        .rotate-90-ccw {
+            transform: rotate(-90deg);
+        }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        .rotate-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #0891b2;
+            margin-bottom: 0.3rem;
+        }
+
+        .rotate-key {
+            background: #1e293b;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 0.3rem;
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            max-width: 200px;
+            margin: 1rem auto;
+            padding: 1rem;
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+
+        .key-button {
+            background: #1e293b;
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .key-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .key-empty {
+            background: transparent;
+        }
+
+        .key-desc {
+            font-size: 0.65rem;
+            margin-top: 0.3rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .glossary-item {
+                padding: 1rem;
+            }
+
+            .rotation-visual {
+                grid-template-columns: 1fr;
+            }
+
+            .rotate-box {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-link">← Volver al portafolio</a>
+        <h1>Rotación de Imagen</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Proyecto</h2>
+            <div class="code-block">
+<code>
+    #Importar libraría opencv
+import cv2
+#Guardamos la imagen en una variable
+imagen=cv2.imread('KON.jpg')
+imgoriginal=imagen.copy()
+
+while True:
+    cv2.imshow('Imagen original',imagen)
+    tecla=cv2.waitKey(0)
+
+    if tecla==ord('d'):
+        imagen=cv2.rotate(imagen,cv2.ROTATE_90_CLOCKWISE)
+        print("Se presiono la tecla",tecla)
+    elif tecla==ord('a'):
+        imagen=cv2.rotate(imagen,cv2.ROTATE_90_COUNTERCLOCKWISE)
+        print("Se presiono la tecla",tecla)
+    elif tecla==ord('w'):
+        imagen=cv2.rotate(imagen,cv2.ROTATE_180)
+        print("Se presiono la tecla",tecla)
+    elif tecla==ord('s'):
+        print("Se presiono la tecla",tecla)
+        break
+</code>
+            </div>
+        </section>
+
+        <!-- Controles del Programa -->
+        <section class="section">
+            <h2 class="section-title">🎮 Controles de Rotación WASD</h2>
+            <div class="glossary">
+                <div class="glossary-item">
+                    <div class="glossary-description">
+                        Sistema de control inspirado en videojuegos que permite rotar la imagen en diferentes direcciones:
+                    </div>
+                    <div class="control-grid">
+                        <div class="key-empty"></div>
+                        <div class="key-button">
+                            W
+                            <div class="key-desc">180°</div>
+                        </div>
+                        <div class="key-empty"></div>
+                        <div class="key-button">
+                            A
+                            <div class="key-desc">90° ⟲</div>
+                        </div>
+                        <div class="key-button">
+                            S
+                            <div class="key-desc">SALIR</div>
+                        </div>
+                        <div class="key-button">
+                            D
+                            <div class="key-desc">90° ⟳</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualización de Rotaciones -->
+        <section class="section">
+            <h2 class="section-title">🔄 Tipos de Rotación</h2>
+            <div class="glossary">
+                <div class="glossary-item">
+                    <div class="glossary-description">
+                        Visualización de cómo se rota la imagen con cada tecla:
+                    </div>
+                    <div class="rotation-visual">
+                        <div class="rotate-item">
+                            <div class="rotate-box">📷</div>
+                            <div class="rotate-label">ORIGINAL</div>
+                            <div style="font-size: 0.8rem; color: #64748b;">0 grados</div>
+                        </div>
+                        <div class="rotate-item">
+                            <div class="rotate-box rotate-90-cw">📷</div>
+                            <div class="rotate-label">DERECHA</div>
+                            <div class="rotate-key">D</div>
+                            <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.3rem;">90° horario</div>
+                        </div>
+                        <div class="rotate-item">
+                            <div class="rotate-box rotate-90-ccw">📷</div>
+                            <div class="rotate-label">IZQUIERDA</div>
+                            <div class="rotate-key">A</div>
+                            <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.3rem;">90° antihorario</div>
+                        </div>
+                        <div class="rotate-item">
+                            <div class="rotate-box rotate-180">📷</div>
+                            <div class="rotate-label">VOLTEAR</div>
+                            <div class="rotate-key">W</div>
+                            <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.3rem;">180° completo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Glosario de Funciones -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Funciones y Conceptos</h2>
+            
+            <div class="glossary">
+                <!-- imagen.copy() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">📋</span>
+                        imagen.copy()
+                    </div>
+                    <div class="glossary-description">
+                        Crea una copia independiente de la imagen original en memoria. Esto es crucial porque 
+                        las rotaciones modifican la variable 'imagen', pero mantenemos 'imgoriginal' intacta 
+                        como respaldo (aunque en este código no se utiliza posteriormente).
+                    </div>
+                    <div class="example-output">
+                        💡 Uso común: Para tener un backup o poder resetear a la imagen original
+                    </div>
+                </div>
+
+                <!-- while True -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">♾️</span>
+                        while True (Ciclo de Rotación)
+                    </div>
+                    <div class="glossary-description">
+                        Ciclo infinito que permite al usuario rotar la imagen múltiples veces de forma acumulativa. 
+                        Cada rotación se aplica sobre el resultado de la rotación anterior, no sobre la imagen original.
+                    </div>
+                    <div class="example-output">
+                        🔄 Flujo: Mostrar imagen → Esperar tecla → Rotar → Actualizar → Repetir
+                    </div>
+                </div>
+
+                <!-- cv2.rotate() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔄</span>
+                        cv2.rotate(src, rotateCode)
+                    </div>
+                    <div class="glossary-description">
+                        Función de OpenCV optimizada para rotar imágenes en ángulos específicos (90°, 180°, 270°). 
+                        Es más eficiente que métodos generales de transformación porque solo reorganiza píxeles 
+                        sin necesidad de interpolación compleja.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">src:</span> Imagen de entrada a rotar</li>
+                        <li><span class="param-name">rotateCode:</span> Constante que define el tipo de rotación</li>
+                        <li><span class="param-name">return:</span> Nueva imagen rotada (mismo tipo de datos)</li>
+                    </ul>
+                </div>
+
+                <!-- ROTATE_90_CLOCKWISE -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">⟳</span>
+                        cv2.ROTATE_90_CLOCKWISE
+                    </div>
+                    <div class="glossary-description">
+                        Constante que rota la imagen 90 grados en sentido horario (hacia la derecha). 
+                        Activada con <span class="keyboard-demo">D</span>. Equivale a girar la imagen como 
+                        si la estuvieras viendo en un reloj y la movieras un cuarto de vuelta a la derecha.
+                    </div>
+                    <div class="example-output">
+                        📐 Transformación: Punto (x, y) → Punto (altura-y-1, x)
+                    </div>
+                </div>
+
+                <!-- ROTATE_90_COUNTERCLOCKWISE -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">⟲</span>
+                        cv2.ROTATE_90_COUNTERCLOCKWISE
+                    </div>
+                    <div class="glossary-description">
+                        Constante que rota la imagen 90 grados en sentido antihorario (hacia la izquierda). 
+                        Activada con <span class="keyboard-demo">A</span>. Es el movimiento opuesto a CLOCKWISE.
+                    </div>
+                    <div class="example-output">
+                        📐 Transformación: Punto (x, y) → Punto (y, ancho-x-1)
+                    </div>
+                </div>
+
+                <!-- ROTATE_180 -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">↻</span>
+                        cv2.ROTATE_180
+                    </div>
+                    <div class="glossary-description">
+                        Constante que rota la imagen 180 grados (media vuelta completa). Activada con <span class="keyboard-demo">W</span>. 
+                        Equivale a voltear la imagen completamente - lo que estaba arriba queda abajo y viceversa, 
+                        lo que estaba a la izquierda queda a la derecha.
+                    </div>
+                    <div class="example-output">
+                        📐 Transformación: Punto (x, y) → Punto (ancho-x-1, altura-y-1)
+                    </div>
+                </div>
+
+                <!-- ord() -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔤</span>
+                        ord(caracter)
+                    </div>
+                    <div class="glossary-description">
+                        Función que convierte un carácter en su código ASCII numérico. Necesaria porque 
+                        cv2.waitKey() retorna códigos ASCII, no caracteres directamente.
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">ord('d'):</span> = 100</li>
+                        <li><span class="param-name">ord('a'):</span> = 97</li>
+                        <li><span class="param-name">ord('w'):</span> = 119</li>
+                        <li><span class="param-name">ord('s'):</span> = 115</li>
+                    </ul>
+                </div>
+
+                <!-- Rotación acumulativa -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🔁</span>
+                        Rotación Acumulativa
+                    </div>
+                    <div class="glossary-description">
+                        En este programa, cada rotación se aplica sobre el resultado de la rotación anterior. 
+                        La variable 'imagen' se sobrescribe constantemente, creando un efecto acumulativo.
+                    </div>
+                    <div class="example-output">
+                        📊 Ejemplo de secuencia:<br>
+                        • Estado inicial: 0°<br>
+                        • Presiono D: 0° + 90° = 90°<br>
+                        • Presiono D otra vez: 90° + 90° = 180°<br>
+                        • Presiono A: 180° - 90° = 90°<br>
+                        • Presiono W: 90° + 180° = 270° (equivalente a -90°)
+                    </div>
+                </div>
+
+                <!-- break y salida -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">🛑</span>
+                        Tecla "S" y break
+                    </div>
+                    <div class="glossary-description">
+                        Al presionar <span class="keyboard-demo">S</span>, se ejecuta 'break' que termina 
+                        el ciclo while. El programa imprime el código de la tecla y finaliza. Las ventanas 
+                        de OpenCV se cierran automáticamente al terminar el script.
+                    </div>
+                    <div class="example-output">
+                        ⚠️ Nota: Sin una opción de salida, el programa quedaría en un loop infinito
+                    </div>
+                </div>
+
+                <!-- Diferencias con otros métodos -->
+                <div class="glossary-item">
+                    <div class="glossary-term">
+                        <span class="glossary-icon">⚡</span>
+                        ¿Por qué usar cv2.rotate()?
+                    </div>
+                    <div class="glossary-description">
+                        Ventajas de cv2.rotate() sobre otros métodos de rotación:
+                    </div>
+                    <ul class="glossary-params">
+                        <li><span class="param-name">Velocidad:</span> Optimizado para rotaciones de 90° - no requiere cálculos trigonométricos</li>
+                        <li><span class="param-name">Calidad:</span> Sin pérdida de información - solo reorganiza píxeles</li>
+                        <li><span class="param-name">Simplicidad:</span> Un solo parámetro en lugar de matrices de transformación</li>
+                        <li><span class="param-name">Precisión:</span> No hay errores de redondeo o interpolación</li>
+                    </ul>
+                    <div class="example-output">
+                        💡 Para ángulos arbitrarios (ej: 45°), usa cv2.getRotationMatrix2D() + cv2.warpAffine()
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</body>
+</html>
